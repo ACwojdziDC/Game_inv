@@ -23,6 +23,22 @@ def remove_from_inventory(inventory, removed_items):
     for elements in check_if_null:
         inventory.pop(elements)
 
+def print_table(inventory, order=""):
+    #do porawy inteligentne formatowanie zależne od długości najdłuższego key w inventory
+
+    if order == "desc":
+        sorted_inventory = {key: value for key,value in sorted(inventory.items(), key=lambda x: x[1], reverse=True)}
+    elif order == "asc":
+        sorted_inventory = {key: value for key,value in sorted(inventory.items(), key=lambda x: x[1], reverse=False)}
+    else :
+        sorted_inventory = inventory    
+    print(20*"-")
+    print("{:>8} | {:<5}".format("item","count"))
+    print(20*"-")
+    for key,value in sorted_inventory.items():
+        print("{:>8} | {:<5}".format(key,value))
+    print(20*"-")
+
               
 
 inventory = {"gold" : 25, "armor" : 9, "helmet": 4, "sword" : 5}
@@ -30,4 +46,5 @@ added_items = ['gold',"helmet","shoes","gold"]
 removed_items = ["gold", "shoes", "shoes", "helmet"]
 add_to_inventory(inventory,added_items)
 remove_from_inventory(inventory, removed_items)
-display_inventory(inventory)
+order = "asc"
+print_table(inventory)
