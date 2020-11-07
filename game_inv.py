@@ -53,6 +53,20 @@ def import_inventory(inventory, filename=""):
             for element in row:
                 import_items.append(element)
     add_to_inventory(inventory,import_items)
+
+def export_inventory(inventory, filename=""):
+    if filename == "":
+        filename = "export_inventory.csv"
+    filename = open(filename,'x')
+    csv_writer = csv.writer(filename)
+    inventory_to_export = []
+    for key,value in inventory.items():
+        for number_of_items in range (value):
+            inventory_to_export.append(key)
+
+    csv_writer.writerow(inventory_to_export)
+    filename.close
+
                 
 
 inventory = {"gold" : 25, "armor" : 9, "helmet": 4, "sword" : 5, "wood" : 3}
@@ -64,3 +78,5 @@ remove_from_inventory(inventory, removed_items)
 order = "asc"
 import_inventory(inventory)
 print_table(inventory)
+filename = "list.csv"
+export_inventory(inventory)
