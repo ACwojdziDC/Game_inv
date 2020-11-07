@@ -43,27 +43,31 @@ def print_table(inventory, order=""):
     print(20*"-")
 
 def import_inventory(inventory, filename=""):
+    
     import_items = []
     if filename == "":
         filename = "import_inventory.csv"
     path = Path(__file__).parent
-    with open (f'{path}//{filename}') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        for row in csv_reader:
-            for element in row:
-                import_items.append(element)
+    try:
+        with open (f'{path}//{filename}') as csv_file:
+            csv_reader = csv.reader(csv_file)
+            for row in csv_reader:
+                for element in row:
+                    import_items.append(element)
+    except Exception as e: print(e)
     add_to_inventory(inventory,import_items)
 
 def export_inventory(inventory, filename=""):
     if filename == "":
         filename = "export_inventory.csv"
-    filename = open(filename,'x')
-    csv_writer = csv.writer(filename)
+    try :
+        filename = open(filename,'w')
+    except Exception as e: print(e)
     inventory_to_export = []
     for key,value in inventory.items():
         for number_of_items in range (value):
-            inventory_to_export.append(key)
-
+            inventory_to_export.append(key)    
+    csv_writer = csv.writer(filename)
     csv_writer.writerow(inventory_to_export)
     filename.close
 
@@ -79,4 +83,4 @@ order = "asc"
 import_inventory(inventory)
 print_table(inventory)
 filename = "list.csv"
-export_inventory(inventory)
+export_inventory(inventory, filename)
