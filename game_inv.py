@@ -1,3 +1,6 @@
+from pathlib import Path
+import csv
+
 def display_inventory(inventory):
     for key, value in inventory.items():
         print(key+":",value)
@@ -39,12 +42,25 @@ def print_table(inventory, order=""):
         print("{:>8} | {:<5}".format(key,value))
     print(20*"-")
 
-              
+def import_inventory(inventory, filename=""):
+    import_items = []
+    if filename == "":
+        filename = "import_inventory.csv"
+    path = Path(__file__).parent
+    with open (f'{path}//{filename}') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        for row in csv_reader:
+            for element in row:
+                import_items.append(element)
+    add_to_inventory(inventory,import_items)
+                
 
-inventory = {"gold" : 25, "armor" : 9, "helmet": 4, "sword" : 5}
+inventory = {"gold" : 25, "armor" : 9, "helmet": 4, "sword" : 5, "wood" : 3}
+filename = ""
 added_items = ['gold',"helmet","shoes","gold"]
 removed_items = ["gold", "shoes", "shoes", "helmet"]
 add_to_inventory(inventory,added_items)
 remove_from_inventory(inventory, removed_items)
 order = "asc"
+import_inventory(inventory)
 print_table(inventory)
